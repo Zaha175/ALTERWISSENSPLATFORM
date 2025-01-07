@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plattform für Alterungsprozesse</title>
+    <meta name="description"
+        content="Plattform für Informationen über Alterungsprozesse und mögliche Gegenmaßnahmen.">
+    <meta name="keywords" content="Alterung, Alterungsprozesse, Langlebigkeit, Anti-Aging, Gesundheit">
+    <meta name="robots" content="index, follow">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Stiluri generale */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://cdn.gamma.app/fhpleqvbjim2f32/generated-images/m5jbKxn54d6Q01a4tMJgN.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode::before {
+            opacity: 0.3;
+        }
+
+        /* Container für die gesamte Seite */
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #003366;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode header {
+            background-color: #1a1a1a;
+        }
+
+        main {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .menu-container {
+            width: 300px;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            background-color: #003366;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .menu-item.active {
+            background-color: #FFCC00;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .menu-item:hover {
+            background-color: #002244;
+            transform: scale(1.05);
+        }
+
+        .content-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .description {
+            background-color: #ffffcc;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: none;
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body.dark-mode .description {
+            background: #1e1e1e;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        .description.active {
+            display: block;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #343a40;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background-color: #1a1a1a;
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: #23272b;
+            color: #FFD700;
+            transform: scale(1.1);
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            background-color: #002244;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .button:hover {
+            background-color: #001122;
+            transform: scale(1.05);
+        }
+
+        .button i {
+            font-size: 0.8rem;
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            max-width: 800px;
+            margin-bottom: 20px;
+            border: none;
+            overflow: hidden;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
+
+            .menu-container {
+                width: 100%;
+            }
+
+            .content-container {
+                padding: 10px;
+                align-items: stretch;
+            }
+
+            .description {
+                width: 100%;
+            }
+
+            .button-container {
+                max-width: 100%;
+            }
+
+            iframe {
+                height: 300px;
+                /* Anpassung der iframe-Höhe auf kleineren Bildschirmen */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>Plattform für Alterungsprozesse</header>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Dark Mode</button>
+
+    <div class="container">
+        <main>
+            <div class="menu-container">
+                <!-- Menüpunkte für die Alterungsprozesse -->
+                <div class="menu-item" onclick="showDescription('genomische-instabilitaet')">Genomische Instabilität</div>
+                <div class="menu-item" onclick="showDescription('telomerverkuerzung')">Telomerverkürzung</div>
+                <div class="menu-item" onclick="showDescription('epigenetische-veraenderungen')">Epigenetische Veränderungen</div>
+                <div class="menu-item" onclick="showDescription('verlust-proteostase')">Verlust der Proteostase</div>
+                <div class="menu-item" onclick="showDescription('deregulierung-naehrstoffsensorik')">Deregulierung der Nährstoffsensorik</div>
+                <div class="menu-item" onclick="showDescription('mitochondriale-dysfunktion')">Mitochondriale Dysfunktion</div>
+                <div class="menu-item" onclick="showDescription('zellulaere-seneszenz')">Zelluläre Seneszenz</div>
+                <div class="menu-item" onclick="showDescription('erschoepfung-stammzellen')">Erschöpfung der Stammzellen</div>
+                <div class="menu-item" onclick="showDescription('veraenderte-kommunikation')">Veränderte interzelluläre Kommunikation</div>
+                <div class="menu-item" onclick="showDescription('chronische-entzuendung')">Chronische Entzündung</div>
+                <!-- Neuer Menüpunkt für den Ernährungsplan -->
+                <div class="menu-item" onclick="showDescription('ernaehrungsplan')">Ernährungsplan für jüngere Darmflora</div>
+            </div>
+
+            <div class="content-container">
+                <!-- Inhalte für die Alterungsprozesse -->
+                <div class="description" id="genomische-instabilitaet-description">
+                    <h3>Genomische Instabilität</h3>
+                    <p>Beschädigung der DNA durch externe und interne Faktoren.</p>
+                    <ul>
+                        <li><strong>Gesunde Ernährung:</strong> Antioxidantienreiche Ernährung zum Schutz vor oxidativem Stress.</li>
+                        <li><strong>Regelmäßige Bewegung:</strong> Fördert die DNA-Reparatur.</li>
+                        <li><strong>Medikamente:</strong> z.B. Metformin.</li>
+                    </ul>
+                </div>
+                <div class="description" id="telomerverkuerzung-description">
+                    <h3>Telomerverkürzung</h3>
+                    <p>Verkürzung der Schutzkappen an den Chromosomenenden.</p>
+                    <ul>
+                        <li><strong>Telomerase-Aktivierung:</strong> z.B. durch TA-65.</li>
+                        <li><strong>Gesunder Lebensstil:</strong> Stressreduktion, gesunde Ernährung, ausreichend Schlaf.</li>
+                    </ul>
+                </div>
+                <div class="description" id="epigenetische-veraenderungen-description">
+                    <h3>Epigenetische Veränderungen</h3>
+                    <p>Veränderungen der Genexpression.</p>
+                    <ul>
+                        <li><strong>Epigenetische Medikamente:</strong> z.B. Spermidin.</li>
+                        <li><strong>Lebensstilinterventionen:</strong> z.B. Kalorienrestriktion.</li>
+                    </ul>
+                </div>
+                <div class="description" id="verlust-proteostase-description">
+                    <h3>Verlust der Proteostase</h3>
+                    <p>Fehlerhafte Proteinfaltung und -abbau.</p>
+                    <ul>
+                        <li><strong>Chaperone:</strong> Proteine, die die korrekte Proteinfaltung unterstützen.</li>
+                        <li><strong>Proteasom-Aktivierung:</strong> Förderung des Proteinabbaus.</li>
+                        <li><strong>Autophagie-Aktivierung:</strong> z.B. durch Kalorienrestriktion oder Medikamente wie Rapamycin.</li>
+                    </ul>
+                </div>
+                <div class="description" id="deregulierung-naehrstoffsensorik-description">
+                    <h3>Deregulierung der Nährstoffsensorik</h3>
+                    <p>Gestörte Wahrnehmung von Nährstoffen durch die Zelle.</p>
+                    <ul>
+                        <li><strong>Kalorienrestriktion:</strong> Reduzierte Kalorienzufuhr.</li>
+                        <li><strong>Intermittierendes Fasten:</strong> Regelmäßige Essenspausen.</li>
+                        <li><strong>Medikamente:</strong> z.B. Metformin.</li>
+                    </ul>
+                </div>
+                <div class="description" id="mitochondriale-dysfunktion-description">
+                    <h3>Mitochondriale Dysfunktion</h3>
+                    <p>Schädigung der Zellkraftwerke.</p>
+                    <ul>
+                        <li><strong>Bewegung:</strong> Fördert die mitochondriale Biogenese.</li>
+                        <li><strong>Antioxidantien:</strong> Schutz vor oxidativem Stress.</li>
+                        <li><strong>Medikamente:</strong> z.B. Metformin.</li>
+                    </ul>
+                </div>
+                <div class="description" id="zellulaere-seneszenz-description">
+                    <h3>Zelluläre Seneszenz</h3>
+                    <p>Anhäufung von alternden Zellen.</p>
+                    <ul>
+                        <li><strong>Senolytika:</strong> Medikamente, die seneszente Zellen abtöten.</li>
+                        <li><strong>Gentherapie:</strong> z.B. Reprogrammierung von T-Zellen.</li>
+                    </ul>
+                </div>
+                <div class="description" id="erschoepfung-stammzellen-description">
+                    <h3>Erschöpfung der Stammzellen</h3>
+                    <p>Verminderte Regenerationsfähigkeit.</p>
+                    <ul>
+                        <li><strong>Stammzelltherapie:</strong> Transplantation von Stammzellen.</li>
+                        <li><strong>Wachstumsfaktoren:</strong> Stimulation der Stammzellaktivität.</li>
+                    </ul>
+                </div>
+                <div class="description" id="veraenderte-kommunikation-description">
+                    <h3>Veränderte interzelluläre Kommunikation</h3>
+                    <p>Gestörte Signalübertragung zwischen Zellen.</p>
+                    <ul>
+                        <li><strong>Hormone:</strong> z.B. Hormonersatztherapie.</li>
+                        <li><strong>Entzündungshemmende Medikamente:</strong> Reduktion von Entzündungen.</li>
+                    </ul>
+                </div>
+                <div class="description" id="chronische-entzuendung-description">
+                    <h3>Chronische Entzündung</h3>
+                    <p>Anhaltender Entzündungszustand im Körper.</p>
+                    <ul>
+                        <li><strong>Gesunde Ernährung:</strong> z.B. mediterrane Ernährung.</li>
+                        <li><strong>Bewegung:</strong> Reduziert Entzündungen.</li>
+                        <li><strong>Entzündungshemmende Medikamente:</strong> z.B. NSAR.</li>
+                    </ul>
+                </div>
+
+                <!-- Neuer Inhalt für den Ernährungsplan -->
+                <div class="description" id="ernaehrungsplan-description">
+                    <h3>Konkreter 7-Tage-Ernährungsplan für eine jüngere Darmflora</h3>
+                    <p>Ein darmfreundlicher Ernährungsplan fördert das Wachstum gesunder Darmbakterien, reduziert Entzündungen und verbessert die allgemeine Gesundheit. Hier ist ein ausgewogener Wochenplan:</p>
+                    <ul>
+                        <li><strong>Tag 1 – Ballaststoffe & Probiotika</strong>
+                            <ul>
+                                <li>Frühstück: Naturjoghurt mit Leinsamen, Haferflocken und Heidelbeeren</li>
+                                <li>Grüner Tee</li>
+                                <li>Mittagessen: Vollkornreis mit gegrilltem Lachs und Brokkoli</li>
+                                <li>Fermentiertes Gemüse (z.B. Sauerkraut)</li>
+                                <li>Abendessen: Gemüsesuppe mit Linsen, Karotten und Sellerie</li>
+                                <li>Vollkornbrot</li>
+                                <li>Snack: Handvoll Mandeln</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tag 2 – Präbiotika & Omega-3-Fette</strong>
+                            <ul>
+                                <li>Frühstück: Haferbrei mit Banane, Chiasamen und Walnüssen</li>
+                                <li>Kräutertee</li>
+                                <li>Mittagessen: Salat mit Spinat, Kichererbsen, Gurke und Olivenöl</li>
+                                <li>Gegrillte Hähnchenbrust</li>
+                                <li>Abendessen: Gebackene Süßkartoffel mit Quark und Schnittlauch</li>
+                                <li>Snack: Apfel mit Erdnussbutter</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tag 3 – Antioxidantien & Fermentierte Lebensmittel</strong>
+                            <ul>
+                                <li>Frühstück: Kefir-Smoothie mit Spinat, Beeren und Chiasamen</li>
+                                <li>Mittagessen: Vollkornnudeln mit Tomatensauce, Pilzen und Spinat</li>
+                                <li>Beilagensalat</li>
+                                <li>Abendessen: Ofengemüse (Karotten, Zucchini, Paprika) mit Hummus</li>
+                                <li>Snack: Eine kleine Portion Sauerkraut</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tag 4 – Darmberuhigende Nahrungsmittel</strong>
+                            <ul>
+                                <li>Frühstück: Overnight Oats mit Apfel, Zimt und Leinsamen</li>
+                                <li>Mittagessen: Hähnchen-Gemüse-Pfanne mit Naturreis</li>
+                                <li>Fermentierter Rettich</li>
+                                <li>Abendessen: Fischfilet mit gedünstetem Gemüse und Kartoffeln</li>
+                                <li>Snack: Handvoll Walnüsse</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tag 5 – Intermittierendes Fasten (16:8-Methode optional)</strong>
+                            <ul>
+                                <li>Frühstück (nach dem Fastenfenster): Griechischer Joghurt mit Chiasamen und Himbeeren</li>
+                                <li>Mittagessen: Gemischter Salat mit Hülsenfrüchten, Kürbiskernen und Olivenöl</li>
+                                <li>Abendessen: Linsensuppe mit Vollkornbrot</li>
+                                <li>Snack: Karottensticks mit Hummus</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tag 6 – Pflanzliche Vielfalt</strong>
+                            <ul>
+                                <li>Frühstück: Smoothie mit Spinat, Mango, Hafermilch und Ingwer</li>
+                                <li>Mittagessen: Quinoa-Salat mit Roter Bete, Feta und Walnüssen</li>
+                                <li>Abendessen: Gemüsecurry mit Kichererbsen und Kokosmilch</li>
+                                <li>Snack: Eine Handvoll Beeren</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tag 7 – Detox & Entspannung</strong>
+                            <ul>
+                                <li>Frühstück: Leinsamen-Bananen-Smoothie mit Hafermilch</li>
+                                <li>Mittagessen: Zucchininudeln mit Avocadocreme und Tomaten</li>
+                                <li>Abendessen: Gedünstetes Gemüse mit Wildlachs</li>
+                                <li>Snack: Joghurt mit Leinsamen</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><strong>Zusätzliche Empfehlungen:</strong></p>
+                    <ul>
+                        <li>Trinke täglich mindestens 2 Liter Wasser.</li>
+                        <li>Integriere Kräutertees wie Fenchel, Ingwer oder Kamille.</li>
+                        <li>Vermeide Zucker, Alkohol und stark verarbeitete Lebensmittel.</li>
+                        <li>Nimm regelmäßig fermentierte Lebensmittel zu dir (z.B. Sauerkraut, Kimchi, Kefir).</li>
+                    </ul>
+                    <p><strong>Bewegung und Stressmanagement ergänzen:</strong></p>
+                    <ul>
+                        <li>Täglich mindestens 30 Minuten Bewegung (Spaziergang, Yoga, Fahrradfahren).</li>
+                        <li>Meditation oder Atemübungen zur Stressreduktion.</li>
+                    </ul>
+                </div>
+
+                <div class="description" id="header-description">
+                    <h3>Willkommen bei der Plattform für Alterungsprozesse</h3>
+                    <p>Klicke auf die Menüpunkte, um mehr zu erfahren.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        function showDescription(category) {
+            let descriptions = document.querySelectorAll('.description');
+            descriptions.forEach(description => {
+                description.classList.remove('active');
+            });
+            let description = document.getElementById(`${category}-description`);
+            if (description) {
+                description.classList.add('active');
+            }
+
+            let menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.classList.remove('active'); // Entfernt die Klasse von allen
+            });
+            let activeMenuItem = document.querySelector(`.menu-item[onclick="showDescription('${category}')"]`);
+            if (activeMenuItem) {
+                activeMenuItem.classList.add('active'); // Fügt die Klasse dem aktuellen hinzu
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        // Lade Dark-Mode beim Start
+        window.onload = () => {
+            showDescription('header');
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+        };
+    </script>
+</body>
+
+</html>
